@@ -17,10 +17,7 @@ type Flags struct {
 
 func main() {
 	flag.Usage = func() {
-		color.Info.Print(" ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
-		fmt.Print("\n\n")
-		color.Info.Print("Get info about a given exploit for given commands\n")
-		color.Info.Print("Usage: ggtfobins.go  --exploit suid --commands cpan,bash\n")
+		printBanner()
 	}
 
 	flags := getFlags()
@@ -30,11 +27,12 @@ func main() {
 	exploit := flags.exploit
 	err := validateRequiredFlagValues(commands, exploit)
 	if err != nil {
+		printBanner()
 		color.Red.Println(err)
 		return
 	}
 
-	printExploitBanner(exploit)
+	printFlagsBanner(exploit, commands)
 
 	commandsList := strings.Split(commands, ",")
 	for _, command := range commandsList {
@@ -49,6 +47,13 @@ func main() {
 	printCredits()
 }
 
+func printBanner () {
+	color.Note.Print(" ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
+	fmt.Print("\n\n")
+	color.Note.Print("Get info about a given exploit for given commands\n")
+	color.Note.Print("Usage: ggtfobins.go  --exploit suid --commands cpan,bash\n\n")
+}
+
 func getFlags () Flags {
 	commandsPtr := flag.String("commands", "", "Comma-separated list of Commands to find given exploit for")
 	exploitPtr := flag.String("exploit", "", "Exploit type:\n- bind-shell\n- capabilities\n- command\n- file-download\n- file-read\n- file-upload\n- file-write\n- library-load\n- limited-suid\n- non-interactive-bind-shell\n- non-interactive-reverse-shell\n- reverse-shell\n- shell\n- sudo\n- suid")
@@ -61,21 +66,26 @@ func getFlags () Flags {
 }
 
 func validateRequiredFlagValues(commands, exploit string) error {
+	if commands == "" && exploit == "" {
+		return fmt.Errorf("error: missing commands and exploit")
+	}
+
 	if commands == "" {
-		return fmt.Errorf("error: needz commands")
+		return fmt.Errorf("error: missing commands")
 	}
 
 	if exploit == "" {
-		return fmt.Errorf("error: needz exploit type")
+		return fmt.Errorf("error: missing exploit type")
 	}
 
 	return nil
 }
 
-func printExploitBanner (exploit string) {
+func printFlagsBanner(exploit, commands string) {
 	fmt.Print("\n")
 	fmt.Print("---------------------------------")
-	color.Blue.Printf("\n EXPLOIT: %s\n", exploit)
+	color.Note.Printf("\n EXPLOIT: %s", exploit)
+	color.Note.Printf("\n COMMANDS: %s\n", commands)
 	fmt.Print("---------------------------------")
 	fmt.Print("\n")
 }
@@ -101,7 +111,7 @@ func printContent(doc *goquery.Document, command, exploit, url string) {
 	section := doc.Find(id)
 
 	if section.Text() == "" {
-		color.Yellow.Printf("\n✘ %s not found\n", command)
+		color.Danger.Printf("\n✘ %s not found\n", command)
 		return
 	}
 
@@ -118,9 +128,9 @@ func printTitle (exploit, command, url string) {
 
 func printDescription (doc *goquery.Document, id string) {
 	text := ""
-	doc.Find(id).NextUntil("ul").Each(func(i int, s *goquery.Selection) {
+	doc.Find(id).NextUntil(".examples").Each(func(i int, s *goquery.Selection) {
 		textTrimmed := strings.TrimSpace(s.Text())
-		text += fmt.Sprintf("%s\n", textTrimmed)
+		text += fmt.Sprintf("\n%s\n", textTrimmed)
 	})
 
 	fmt.Println(text)

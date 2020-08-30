@@ -1,6 +1,8 @@
 # Get GTFOBINS
 Get info about a given exploit for given commands
 
+![Image of GGTFOBINS](ggtfobins-screenshot.jpg)
+
 ##Install
 `go get github.com/CristinaSolana/ggtfobins`
 
