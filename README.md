@@ -3,13 +3,13 @@ Get info from [GTFOBins](https://gtfobins.github.io/) about a given exploit for 
 
 ![Image of GGTFOBINS](ggtfobins-screenshot.jpg)
 
-##Install
+## Install
 `go get github.com/CristinaSolana/ggtfobins`
 
-##Usage
+## Usage
 `ggtfobins.go  --exploit suid --commands cpan,bash`
 
-##Available Exploits
+## Available Exploits
 - bind-shell
 - capabilities
 - command
