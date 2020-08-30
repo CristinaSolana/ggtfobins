@@ -1,5 +1,5 @@
 # Get GTFOBINS
-Get info about a given exploit for given commands
+Get info from [GTFOBins](https://gtfobins.github.io/) about a given exploit for given commands
 
 ![Image of GGTFOBINS](ggtfobins-screenshot.jpg)
 
