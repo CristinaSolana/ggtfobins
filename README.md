@@ -7,7 +7,7 @@ Get info from [GTFOBins](https://gtfobins.github.io/) about a given exploit for 
 `go get github.com/CristinaSolana/ggtfobins`
 
 ## Usage
-`ggtfobins.go  --exploit suid --bins cpan,bash`
+`ggtfobins  --exploit suid --bins cpan,bash`
 
 ## Available Exploits
 - bind-shell

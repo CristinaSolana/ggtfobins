@@ -51,7 +51,7 @@ func printBanner () {
 	color.Note.Print(" ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
 	fmt.Print("\n\n")
 	color.Note.Print("Get info about a given exploit for given bins\n")
-	color.Note.Print("Usage: ggtfobins.go  --exploit suid --bins cpan,bash\n\n")
+	color.Note.Print("Usage: ggtfobins  --exploit suid --bins cpan,bash\n\n")
 }
 
 func getFlags () Flags {
