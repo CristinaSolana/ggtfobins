@@ -11,7 +11,7 @@ import (
 )
 
 type Flags struct {
-	commands string
+	bins string
 	exploit string
 }
 
@@ -23,22 +23,22 @@ func main() {
 	flags := getFlags()
 	flag.Parse()
 
-	commands := flags.commands
+	bins := flags.bins
 	exploit := flags.exploit
-	err := validateRequiredFlagValues(commands, exploit)
+	err := validateRequiredFlagValues(bins, exploit)
 	if err != nil {
 		printBanner()
 		color.Red.Println(err)
 		return
 	}
 
-	printFlagsBanner(exploit, commands)
+	printFlagsBanner(exploit, bins)
 
-	commandsList := strings.Split(commands, ",")
-	for _, command := range commandsList {
-		trimmedCommand := strings.TrimSpace(command)
-		url := fmt.Sprintf("https://gtfobins.github.io/gtfobins/%s", trimmedCommand)
-		err = printBins(url, trimmedCommand, exploit)
+	binsList := strings.Split(bins, ",")
+	for _, bin := range binsList {
+		trimmedBin := strings.TrimSpace(bin)
+		url := fmt.Sprintf("https://gtfobins.github.io/gtfobins/%s", trimmedBin)
+		err = printBins(url, trimmedBin, exploit)
 		if err != nil {
 			log.Println(err)
 		}
@@ -50,28 +50,28 @@ func main() {
 func printBanner () {
 	color.Note.Print(" ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
 	fmt.Print("\n\n")
-	color.Note.Print("Get info about a given exploit for given commands\n")
-	color.Note.Print("Usage: ggtfobins.go  --exploit suid --commands cpan,bash\n\n")
+	color.Note.Print("Get info about a given exploit for given bins\n")
+	color.Note.Print("Usage: ggtfobins.go  --exploit suid --bins cpan,bash\n\n")
 }
 
 func getFlags () Flags {
-	commandsPtr := flag.String("commands", "", "Comma-separated list of Commands to find given exploit for")
-	exploitPtr := flag.String("exploit", "", "Exploit type:\n- bind-shell\n- capabilities\n- command\n- file-download\n- file-read\n- file-upload\n- file-write\n- library-load\n- limited-suid\n- non-interactive-bind-shell\n- non-interactive-reverse-shell\n- reverse-shell\n- shell\n- sudo\n- suid")
+	binsPtr := flag.String("bins", "", "Comma-separated list of Bins to find given exploit for")
+	exploitPtr := flag.String("exploit", "", "Exploit type:\n- bind-shell\n- capabilities\n- bin\n- file-download\n- file-read\n- file-upload\n- file-write\n- library-load\n- limited-suid\n- non-interactive-bind-shell\n- non-interactive-reverse-shell\n- reverse-shell\n- shell\n- sudo\n- suid")
 	flag.Parse()
 
 	return Flags{
-		commands: *commandsPtr,
+		bins: *binsPtr,
 		exploit: *exploitPtr,
 	}
 }
 
-func validateRequiredFlagValues(commands, exploit string) error {
-	if commands == "" && exploit == "" {
-		return fmt.Errorf("error: missing commands and exploit")
+func validateRequiredFlagValues(bins, exploit string) error {
+	if bins == "" && exploit == "" {
+		return fmt.Errorf("error: missing bins and exploit")
 	}
 
-	if commands == "" {
-		return fmt.Errorf("error: missing commands")
+	if bins == "" {
+		return fmt.Errorf("error: missing bins")
 	}
 
 	if exploit == "" {
@@ -81,16 +81,16 @@ func validateRequiredFlagValues(commands, exploit string) error {
 	return nil
 }
 
-func printFlagsBanner(exploit, commands string) {
+func printFlagsBanner(exploit, bins string) {
 	fmt.Print("\n")
 	fmt.Print("---------------------------------")
 	color.Note.Printf("\n EXPLOIT: %s", exploit)
-	color.Note.Printf("\n COMMANDS: %s\n", commands)
+	color.Note.Printf("\n BINS: %s\n", bins)
 	fmt.Print("---------------------------------")
 	fmt.Print("\n")
 }
 
-func printBins(url, command, exploit string) error {
+func printBins(url, bin, exploit string) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
@@ -101,29 +101,29 @@ func printBins(url, command, exploit string) error {
 		return err
 	}
 
-	printContent(doc, command, exploit, url)
+	printContent(doc, bin, exploit, url)
 
 	return nil
 }
 
-func printContent(doc *goquery.Document, command, exploit, url string) {
+func printContent(doc *goquery.Document, bin, exploit, url string) {
 	id := fmt.Sprintf("#%s", exploit)
 	section := doc.Find(id)
 
 	if section.Text() == "" {
-		color.Danger.Printf("\n✘ %s not found\n", command)
+		color.Danger.Printf("\n✘ %s not found\n", bin)
 		return
 	}
 
-	printTitle(exploit, command, url)
+	printTitle(exploit, bin, url)
 	printDescription(doc, id)
 	printExamples(doc, id)
 }
 
-func printTitle (exploit, command, url string) {
+func printTitle (exploit, bin, url string) {
 	mag := color.HEX("#f06")
 	exploitId := strings.ReplaceAll(exploit, " ", "-")
-	mag.Printf("\n✔ %s %s/#%s\n", command, url, exploitId)
+	mag.Printf("\n✔ %s %s/#%s\n", bin, url, exploitId)
 }
 
 func printDescription (doc *goquery.Document, id string) {
