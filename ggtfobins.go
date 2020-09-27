@@ -10,6 +10,11 @@ import (
 	"strings"
 )
 
+var (
+	badass = color.HEX("#bada55")
+	hotpink = color.HEX("#f06")
+)
+
 type Flags struct {
 	bins string
 	exploit string
@@ -48,10 +53,11 @@ func main() {
 }
 
 func printBanner () {
-	color.Note.Print(" ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
+	badass.Print("\n ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
 	fmt.Print("\n\n")
-	color.Note.Print("Get info about a given exploit for given bins\n")
-	color.Note.Print("Usage: ggtfobins  --exploit suid --bins cpan,bash\n\n")
+	color.White.Print("Get info about a given exploit for given bins\n\n")
+	badass.Print("Usage: ggtfobins  --exploit suid --bins cpan,bash\n\n")
+	color.White.Print("Available exploits:\n\n- bind-shell\n- capabilities\n- bin\n- file-download\n- file-read\n- file-upload\n- file-write\n- library-load\n- limited-suid\n- non-interactive-bind-shell\n- non-interactive-reverse-shell\n- reverse-shell\n- shell\n- sudo\n- suid\n\n")
 }
 
 func getFlags () Flags {
@@ -66,19 +72,39 @@ func getFlags () Flags {
 }
 
 func validateRequiredFlagValues(bins, exploit string) error {
-	if bins == "" && exploit == "" {
-		return fmt.Errorf("error: missing bins and exploit")
+	if bins == "" || exploit == "" {
+		return fmt.Errorf("Error: make sure you set bins and an exploit")
 	}
 
-	if bins == "" {
-		return fmt.Errorf("error: missing bins")
-	}
-
-	if exploit == "" {
-		return fmt.Errorf("error: missing exploit type")
+	if !isValidExploit(exploit) {
+		return fmt.Errorf("Error: not a valid exploit")
 	}
 
 	return nil
+}
+
+func isValidExploit(exploit string) bool {
+	switch exploit {
+	case
+		"bind-shell",
+		"capabilities",
+		"bin",
+		"file-download",
+		"file-read",
+		"file-upload",
+		"file-write",
+		"library-load",
+		"limited-suid",
+		"non-interactive-bind-shell",
+		"non-interactive-reverse-shell",
+		"reverse-shell",
+		"shell",
+		"sudo",
+		"suid":
+		return true
+	}
+
+	return false
 }
 
 func printFlagsBanner(exploit, bins string) {
@@ -121,9 +147,8 @@ func printContent(doc *goquery.Document, bin, exploit, url string) {
 }
 
 func printTitle (exploit, bin, url string) {
-	mag := color.HEX("#f06")
 	exploitId := strings.ReplaceAll(exploit, " ", "-")
-	mag.Printf("\n✔ %s %s/#%s\n", bin, url, exploitId)
+	hotpink.Printf("\n✔ %s %s/#%s\n", bin, url, exploitId)
 }
 
 func printDescription (doc *goquery.Document, id string) {
@@ -153,7 +178,6 @@ func printExamples (doc *goquery.Document, id string) {
 		}
 	})
 
-	badass := color.HEX("#bada55")
 	for i, _ := range codes {
 		if codes[i][0] != "" {
 			fmt.Println(codes[i][0])
