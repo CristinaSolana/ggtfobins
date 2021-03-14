@@ -9,6 +9,9 @@ Get info from [GTFOBins](https://gtfobins.github.io/) about a given exploit for 
 ## Usage
 `ggtfobins  --exploit suid --bins cpan,bash`
 
+## Command not found error
+Run `export PATH=$PATH:$(go env GOPATH)/bin`
+
 ## Available Exploits
 - bind-shell
 - capabilities
