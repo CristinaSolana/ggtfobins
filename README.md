@@ -12,8 +12,8 @@ or [grab the latest binary](https://github.com/CristinaSolana/ggtfobins/releases
 `ggtfobins  --exploit suid --bins cpan,bash`
 
 ## Docker Usage
-`docker pull nightshiftc/ggtfobins`
-`docker run -it nightshiftc/ggtfobins --exploit sudo --bins vim`
+1. `docker pull nightshiftc/ggtfobins`
+2. `docker run -it nightshiftc/ggtfobins --exploit sudo --bins vim`
 
 ## Command not found error
 Run `export PATH=$PATH:$(go env GOPATH)/bin`
