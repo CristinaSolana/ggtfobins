@@ -164,18 +164,21 @@ func printDescription (doc *goquery.Document, id string) {
 func printExamples (doc *goquery.Document, id string) {
 	codes := make([][]string, 0)
 
-	doc.Find(id).NextFilteredUntil(".examples", "h2").Find("li p").Each(func(i int, s *goquery.Selection) {
-		liDescription := fmt.Sprintf("%s", strings.TrimSpace(s.Text()))
-		codes = append(codes, []string{liDescription, ""})
-	})
+	doc.Find(id).NextFilteredUntil(".examples", "h2").Find("li").Each(func(i int, s *goquery.Selection) {
+		s.Find("p").Each(func(i int, s *goquery.Selection) {
+			liDescription := fmt.Sprintf("%s", strings.TrimSpace(s.Text()))
+			codes = append(codes, []string{liDescription, ""})
+		})
+        	
+		s.Find("pre code").Each(func(i int, s *goquery.Selection) {
+                	code := fmt.Sprintf("%s\n", strings.TrimSpace(s.Text()))
+                	if len(codes) == i + 1 {
+                        	codes[i] = []string{codes[i][0], code}
+                	} else {
+                        	codes = append(codes, []string{"", code})
+                	}
+        	})
 
-	doc.Find(id).NextFilteredUntil(".examples", "h2").Find("li pre code").Each(func(i int, s *goquery.Selection) {
-		code := fmt.Sprintf("%s\n", strings.TrimSpace(s.Text()))
-		if len(codes) == i + 1 {
-			codes[i] = []string{codes[i][0], code}
-		} else {
-			codes = append(codes, []string{"", code})
-		}
 	})
 
 	for i, _ := range codes {
