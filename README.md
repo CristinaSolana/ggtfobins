@@ -6,6 +6,8 @@ Get info from [GTFOBins](https://gtfobins.github.io/) about a given exploit for 
 ## Install
 `go get github.com/CristinaSolana/ggtfobins`
 
+or [grab the latest binary](https://github.com/CristinaSolana/ggtfobins/releases)
+
 ## Usage
 `ggtfobins  --exploit suid --bins cpan,bash`
 
