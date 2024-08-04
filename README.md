@@ -9,7 +9,7 @@ Get info from [GTFOBins](https://gtfobins.github.io/) about a given exploit from
 or [grab the latest binary](https://github.com/CristinaSolana/ggtfobins/releases)
 
 ## Usage
-`ggtfobins  --exploit suid --bins cpan,bash`
+`ggtfobins  --exploit suid --bins bash,cat`
 
 ## Docker Usage
 1. `docker pull nightshiftc/ggtfobins`
