@@ -45,4 +45,4 @@ Follow GTFOBins' creators:
 - [norbemi](https://twitter.com/norbemi)
 - [cyrus_and](https://twitter.com/cyrus_and)
 
-Follow [me](https://twitter.com/nightshiftc)
+Follow [me](https://twitter.com/0xStoek)
