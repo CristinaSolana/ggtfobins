@@ -57,7 +57,7 @@ func printBanner() {
 	badass.Print("\n ______     ______     ______   ______   ______     ______     __     __   __     ______    \n/\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\ /\\  __ \\   /\\  == \\   /\\ \\   /\\ \"-.\\ \\   /\\  ___\\   \n\\ \\ \\__ \\  \\ \\ \\__ \\  \\/_/\\ \\/ \\ \\  __\\ \\ \\ \\/\\ \\  \\ \\  __<   \\ \\ \\  \\ \\ \\-.  \\  \\ \\___  \\  \n \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\ \\_\\    \\ \\_____\\  \\ \\_____\\  \\ \\_\\  \\ \\_\\\\\"\\_\\  \\/\\_____\\ \n  \\/_____/   \\/_____/     \\/_/   \\/_/     \\/_____/   \\/_____/   \\/_/   \\/_/ \\/_/   \\/_____/")
 	fmt.Print("\n\n")
 	color.White.Print("Get info about a given exploit for given bins\n\n")
-	badass.Print("Usage: ggtfobins  --exploit suid --bins cpan,bash\n\n")
+	badass.Print("Usage: ggtfobins  --exploit suid --bins bash,cat\n\n")
 	color.White.Print("Available exploits:\n\n- bind-shell\n- capabilities\n- bin\n- file-download\n- file-read\n- file-upload\n- file-write\n- library-load\n- limited-suid\n- non-interactive-bind-shell\n- non-interactive-reverse-shell\n- reverse-shell\n- shell\n- sudo\n- suid\n\n")
 }
 
